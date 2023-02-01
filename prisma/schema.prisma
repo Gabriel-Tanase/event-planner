@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//call prisma generate after every changes
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator zod {
+  provider = "./prisma/zod.js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// model Plan {
+//   id    String @id @map("_id") @default(auto()) @db.ObjectId
+//   title String
+//   description String
+//   price Int
+//   currency String
+//   profile Profile @relation(fields: [profileId], references: [id])
+//   profileId String @db.ObjectId
+//   created_at DateTime @default(now())
+// }
+// model Event {
+//   id    String @id @map("_id") @default(auto()) @db.ObjectId
+//   title String
+//   description String
+//   place String
+//   duration String
+//   price Int
+//   currency String
+//   profile Profile  @relation(fields: [profileId], references: [id])
+//   profileId String @db.ObjectId
+//   created_at DateTime @default(now())
+// }
+
+// model Gallery {
+//   id    String @id @map("_id") @default(auto()) @db.ObjectId
+//   images String[]
+//   profile Profile  @relation(fields: [profileId], references: [id])
+//   profileId String @db.ObjectId @unique
+//   created_at DateTime @default(now())
+// }
+
+// model Education {
+//   id    String @id @map("_id") @default(auto()) @db.ObjectId
+//   institution String
+//   specialization String
+//   label String?
+//   profile Profile  @relation(fields: [profileId], references: [id])
+//   profileId String @db.ObjectId
+//   created_at DateTime @default(now())
+// }
+
+// model WorkExperience {
+//   id    String @id @map("_id") @default(auto()) @db.ObjectId
+//   company String
+//   position String
+//   profile Profile  @relation(fields: [profileId], references: [id])
+//   profileId String @db.ObjectId
+//   created_at DateTime @default(now())
+// }
+
+model Profile {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  created_at       DateTime @default(now())
+  introduction     String   @default("")
+  testimonial      String   @default("")
+  sports           String[]
+  sessionTypes     String[]
+  sessionLocations String[]
+  user             User     @relation(fields: [userId], references: [id])
+  userId           String   @unique @db.ObjectId
+}
+
+// education Education[]
+// workExperience WorkExperience[]
+// plans Plan[]
+// events Event[]
+// gallery Gallery?
+
+model User {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  email         String   @unique
+  firstName     String
+  lastName      String
+  password      String
+  isTrainer     Boolean
+  verifyToken   String
+  avatar        String
+  isPremium     Boolean? @default(false)
+  deleted       Boolean? @default(false)
+  accountStatus String?  @default("PENDING")
+  profile       Profile?
+  profileId     String?  @db.ObjectId
+  created_at    DateTime @default(now())
+}

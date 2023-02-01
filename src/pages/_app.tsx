@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import * as React from "react";
+import React, { useRef } from "react";
 import Head from "next/head";
 import { AppProps } from "next/app";
 import { ThemeProvider } from "@mui/material/styles";
@@ -9,7 +9,7 @@ import createEmotionCache from "../../config/createEmotionCache";
 import { createTheme } from "@mui/material";
 import { createContext, useMemo, useState } from "react";
 import { generatePaletteByMode } from "config/theme";
-
+import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 interface MyAppProps extends AppProps {
 	emotionCache?: EmotionCache;
 }
@@ -25,6 +25,8 @@ export default function App(props: MyAppProps) {
 		emotionCache = clientSideEmotionCache,
 		pageProps,
 	} = props;
+
+	const queryClient = useRef(new QueryClient());
 
 	const colorMode = useMemo(
 		() => ({
@@ -52,9 +54,12 @@ export default function App(props: MyAppProps) {
 			</Head>
 			<ColorModeContext.Provider value={colorMode}>
 				<ThemeProvider theme={theme}>
-					{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-					<CssBaseline />
-					<Component {...pageProps} />
+					<QueryClientProvider client={queryClient.current}>
+						<Hydrate state={pageProps.dehydrateState}>
+							<CssBaseline />
+							<Component {...pageProps} />
+						</Hydrate>
+					</QueryClientProvider>
 				</ThemeProvider>
 			</ColorModeContext.Provider>
 		</CacheProvider>
