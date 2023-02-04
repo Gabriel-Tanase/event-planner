@@ -1,4 +1,3 @@
-import { validation } from "@/shared/constants/regEx";
 import { generateHexColor } from "@/shared/utils";
 import { hash } from "bcrypt";
 import { isEmpty, isNil } from "lodash";
@@ -6,6 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import prisma from "prisma/prisma";
 import { schema } from "schemas/users";
+import { registerSchema } from "@/shared/constants/regEx";
 
 const Register = nextConnect({
 	onError(error, req: NextApiRequest, res: NextApiResponse) {
@@ -27,11 +27,15 @@ Register.post(async (req: NextApiRequest, res: NextApiResponse) => {
 		},
 	});
 
-	const validName =
-		validation.lettersOnly.test(firstName.trim()) &&
-		validation.lettersOnly.test(lastName.trim());
-	const validEmail = validation.email.test(email.toLowerCase());
-	const validPassword = validation.oneLowerUpperDigit.test(password);
+	const isSchemaValid = await registerSchema
+		.validate({
+			firstName,
+			lastName,
+			email,
+			password,
+		})
+		.then(() => true)
+		.catch(() => false);
 
 	if (!isEmpty(userAlreadyExist) || !isNil(userAlreadyExist)) {
 		return res.status(409).json({
@@ -41,7 +45,7 @@ Register.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
 	// const verifyToken = '' GENERATE USING JWT, TO CRYPT USERID AND EXPIRE DATE
 
-	if (validName && validEmail && validPassword) {
+	if (isSchemaValid) {
 		hash(password, 12, async (err, hash) => {
 			if (!err) {
 				schema.parse({
@@ -74,7 +78,9 @@ Register.post(async (req: NextApiRequest, res: NextApiResponse) => {
 						return res.status(201).json({
 							message: "User was created.",
 							status: 200,
-							data,
+							data: {
+								userId: data.id,
+							},
 						});
 					})
 					.catch((e: any) => {

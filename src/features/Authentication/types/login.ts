@@ -9,10 +9,6 @@ export type TLoginPayload = {
 	password: boolean;
 };
 
-export type TLoginMutationResponse = {
-	message: string;
-	status: number;
-	data?: {
-		userId: string;
-	};
+export type TLoginResponse = {
+	userId: string;
 };

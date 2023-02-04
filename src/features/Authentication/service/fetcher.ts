@@ -1,18 +1,19 @@
-import axios from "axios";
-import { TLoginPayload } from "../types/login";
+import { TResponse } from "@/shared/types/error/api";
+import axiosInstance from "config/axiosInstance";
+import { TLoginPayload, TLoginResponse } from "../types/login";
 import { TRegisterPayload, TRegisterResponse } from "../types/register";
 
 export const postLoginFetcher = async (
 	payload: TLoginPayload
-): Promise<TRegisterResponse> => {
-	const { data } = await axios.post("api/login", payload);
+): Promise<TResponse<TLoginResponse>> => {
+	const { data } = await axiosInstance.post("login", payload);
 	return data;
 };
 
 export const postRegisterFetcher = async (
 	payload: TRegisterPayload
-): Promise<TRegisterResponse> => {
-	const { data } = await axios.post("api/register", payload);
+): Promise<TResponse<TRegisterResponse>> => {
+	const { data } = await axiosInstance.post("register", payload);
 	return data;
 };
 

@@ -1,12 +1,12 @@
-import { RequestError } from "@/shared/types/error/api";
+import { RequestError, TResponse } from "@/shared/types/error/api";
 import {
 	useMutation,
 	UseMutationResult,
 	useQuery,
 	UseQueryResult,
 } from "react-query";
-import { TLoginMutationResponse } from "../types/login";
-import { TRegisterResponse } from "../types/register";
+import { TLoginPayload, TLoginResponse } from "../types/login";
+import { TRegisterPayload, TRegisterResponse } from "../types/register";
 import { postLoginFetcher, postRegisterFetcher } from "./fetcher";
 
 // #TODO
@@ -22,21 +22,31 @@ export const getTestQueryFetcher = () => ({ data: "this is a test" });
 export const useAuthenticationService = () => {
 	const useLoginMutation = () => {
 		const mutation: UseMutationResult<
-			TLoginMutationResponse,
-			RequestError
-		> = useMutation(async (payload) => postLoginFetcher(payload), {
-			onSuccess: () => {},
-			onError: () => {},
-		});
+			TResponse<TLoginResponse>,
+			RequestError,
+			TLoginPayload
+		> = useMutation(
+			async (payload: TLoginPayload) => postLoginFetcher(payload),
+			{
+				onSuccess: () => {},
+				onError: () => {},
+			}
+		);
 		return mutation;
 	};
 
 	const useRegisterMutation = () => {
-		const mutation: UseMutationResult<TRegisterResponse, RequestError> =
-			useMutation(async (payload) => postRegisterFetcher(payload), {
+		const mutation: UseMutationResult<
+			TResponse<TRegisterResponse>,
+			RequestError,
+			TRegisterPayload
+		> = useMutation(
+			async (payload: TRegisterPayload) => postRegisterFetcher(payload),
+			{
 				onSuccess: () => {},
 				onError: () => {},
-			});
+			}
+		);
 		return mutation;
 	};
 

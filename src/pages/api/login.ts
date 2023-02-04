@@ -28,6 +28,7 @@ Login.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
 	if (!isEmpty(user)) {
 		compare(password, user.password, async (err, result) => {
+			console.log(password, result);
 			if (!err && result) {
 				const claims = { id: user.id, email: email };
 				const JWT = sign(claims, process.env.JWT_KEY as string, {

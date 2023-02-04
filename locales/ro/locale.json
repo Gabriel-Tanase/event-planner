@@ -1,3 +1,14 @@
 {
-	"welcome": "Bun venit la planificatorul de evenimente"
+	"welcome": "Bun venit la planificatorul de evenimente",
+	"FORM": {
+		"FIRST_NAME": "Prenume",
+		"LAST_NAME": "Nume",
+		"EMAIL": "Email",
+		"PASSWORD": "Parola"
+	},
+	"BUTTONS": {
+		"CONTINUE": "Continuă",
+		"REGISTER": "Înregistrare",
+		"CANCEL": "Anulare"
+	}
 }

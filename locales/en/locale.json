@@ -1,3 +1,14 @@
 {
-	"welcome": "Welcome to the event planner"
+	"welcome": "Welcome to the event planner",
+	"FORM": {
+		"FIRST_NAME": "First name",
+		"LAST_NAME": "Last name",
+		"EMAIL": "Email",
+		"PASSWORD": "Password"
+	},
+	"BUTTONS": {
+		"CONTINUE": "Continue",
+		"REGISTER": "Register",
+		"CANCEL": "Cancel"
+	}
 }
