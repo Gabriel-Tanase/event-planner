@@ -1,9 +1,10 @@
+import { AxiosError } from "axios";
 import { NextApiRequest } from "next/types";
 
-export type RequestError = {
-	status: number;
+export type TRequestError = AxiosError<{
 	message: string;
-};
+	status: number;
+}>;
 
 export type TResponse<T> = {
 	message: string;

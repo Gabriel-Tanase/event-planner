@@ -10,6 +10,9 @@ import { createTheme } from "@mui/material";
 import { createContext, useMemo, useState } from "react";
 import { generatePaletteByMode } from "config/theme";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
+import { SnackbarProvider } from "material-ui-snackbar-provider";
+import CustomSnackbarComponent from "@/components/CustomSnackbar/CustomSnackbar";
+
 interface MyAppProps extends AppProps {
 	emotionCache?: EmotionCache;
 }
@@ -54,12 +57,24 @@ export default function App(props: MyAppProps) {
 			</Head>
 			<ColorModeContext.Provider value={colorMode}>
 				<ThemeProvider theme={theme}>
-					<QueryClientProvider client={queryClient.current}>
-						<Hydrate state={pageProps.dehydrateState}>
-							<CssBaseline />
-							<Component {...pageProps} />
-						</Hydrate>
-					</QueryClientProvider>
+					<SnackbarProvider
+						SnackbarComponent={CustomSnackbarComponent}
+						SnackbarProps={{
+							autoHideDuration: 200000,
+							className: "Snackbar",
+							anchorOrigin: {
+								vertical: "bottom",
+								horizontal: "center",
+							},
+						}}
+					>
+						<QueryClientProvider client={queryClient.current}>
+							<Hydrate state={pageProps.dehydrateState}>
+								<CssBaseline />
+								<Component {...pageProps} />
+							</Hydrate>
+						</QueryClientProvider>
+					</SnackbarProvider>
 				</ThemeProvider>
 			</ColorModeContext.Provider>
 		</CacheProvider>

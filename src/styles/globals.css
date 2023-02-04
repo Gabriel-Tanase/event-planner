@@ -1,0 +1,6 @@
+.Snackbar .MuiPaper-root {
+	display: flex;
+	justify-content: center;
+	background-color: lightgray;
+	font-weight: 600;
+}

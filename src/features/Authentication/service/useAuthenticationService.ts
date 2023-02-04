@@ -1,4 +1,4 @@
-import { RequestError, TResponse } from "@/shared/types/error/api";
+import { TRequestError, TResponse } from "@/shared/types/error/api";
 import {
 	useMutation,
 	UseMutationResult,
@@ -8,6 +8,8 @@ import {
 import { TLoginPayload, TLoginResponse } from "../types/login";
 import { TRegisterPayload, TRegisterResponse } from "../types/register";
 import { postLoginFetcher, postRegisterFetcher } from "./fetcher";
+import useSnackbarService from "@/hooks/useSnackbarService";
+import { handleErrorMessage } from "@/shared/utils";
 
 // #TODO
 type TTestQueryResponse = {
@@ -20,16 +22,23 @@ export const getTestQueryFetcher = () => ({ data: "this is a test" });
 // #TODO
 
 export const useAuthenticationService = () => {
+	const snackbarService = useSnackbarService();
 	const useLoginMutation = () => {
 		const mutation: UseMutationResult<
 			TResponse<TLoginResponse>,
-			RequestError,
+			TRequestError,
 			TLoginPayload
 		> = useMutation(
 			async (payload: TLoginPayload) => postLoginFetcher(payload),
 			{
-				onSuccess: () => {},
-				onError: () => {},
+				onSuccess: (response) =>
+					snackbarService.showSuccess({
+						message: response.message,
+					}),
+				onError: (error) =>
+					snackbarService.showError({
+						message: handleErrorMessage(error),
+					}),
 			}
 		);
 		return mutation;
@@ -38,13 +47,19 @@ export const useAuthenticationService = () => {
 	const useRegisterMutation = () => {
 		const mutation: UseMutationResult<
 			TResponse<TRegisterResponse>,
-			RequestError,
+			TRequestError,
 			TRegisterPayload
 		> = useMutation(
 			async (payload: TRegisterPayload) => postRegisterFetcher(payload),
 			{
-				onSuccess: () => {},
-				onError: () => {},
+				onSuccess: (response) =>
+					snackbarService.showSuccess({
+						message: response.message,
+					}),
+				onError: (error) =>
+					snackbarService.showError({
+						message: handleErrorMessage(error),
+					}),
 			}
 		);
 		return mutation;
@@ -56,13 +71,13 @@ export const useAuthenticationService = () => {
 			isError,
 			isLoading,
 			data,
-		}: UseQueryResult<TTestResponse, RequestError> = useQuery(
+		}: UseQueryResult<TTestResponse, TRequestError> = useQuery(
 			["test"],
 			() => getTestQueryFetcher(),
 			{
 				select: (data: TTestResponse) => data,
-				onSuccess: (data: TTestResponse) => {},
-				onError: (error: RequestError) => {},
+				onSuccess: (response) => {},
+				onError: (error) => {},
 			}
 		);
 
