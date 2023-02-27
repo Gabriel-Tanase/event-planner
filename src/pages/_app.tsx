@@ -23,13 +23,22 @@ export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 export default function App(props: MyAppProps) {
 	const [mode, setMode] = useState<"light" | "dark">("light");
+	const queryClient = useRef(
+		new QueryClient({
+			defaultOptions: {
+				queries: {
+					staleTime: 10 * 1000,
+					retry: 2,
+				},
+			},
+		})
+	);
+
 	const {
 		Component,
 		emotionCache = clientSideEmotionCache,
 		pageProps,
 	} = props;
-
-	const queryClient = useRef(new QueryClient());
 
 	const colorMode = useMemo(
 		() => ({

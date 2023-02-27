@@ -1,11 +1,12 @@
-import { NextApiHandler, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { verify } from "jsonwebtoken";
 
-import { NextApiRequestAuthorized } from "@/shared/types/error/api";
-import { PATHS } from "@/features/Authentication/constants";
+import { NextApiRequestAuthorized } from "@/shared/types/api";
+import { NextConnect } from "next-connect";
+import { ROUTES } from "@/shared/constants/routes";
 
 export const authorization =
-	(fn: NextApiHandler) =>
+	(fn: NextConnect<NextApiRequestAuthorized, NextApiResponse<any>>) =>
 	async (req: NextApiRequestAuthorized, res: NextApiResponse) => {
 		return verify(
 			req.cookies.authorization as string,
@@ -16,7 +17,7 @@ export const authorization =
 					return await fn(req as NextApiRequestAuthorized, res);
 				}
 
-				return res.redirect(401, PATHS.LOGIN);
+				return res.redirect(401, ROUTES.LOGIN);
 			}
 		);
 	};

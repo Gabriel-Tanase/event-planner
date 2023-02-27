@@ -20,7 +20,7 @@ const Login = nextConnect({
 Login.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	const { email, password } = req.body;
 
-	const user = await prisma.users.findUnique({
+	const user = await prisma.user.findUnique({
 		where: {
 			email: email,
 		},

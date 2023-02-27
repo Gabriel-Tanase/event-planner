@@ -1,29 +1,32 @@
-import { TRequestError, TResponse } from "@/shared/types/error/api";
+import { TRequestError } from "@/shared/types/error/api";
 import {
 	useMutation,
 	UseMutationResult,
 	useQuery,
 	UseQueryResult,
 } from "react-query";
-import { TLoginPayload, TLoginResponse } from "../types/login";
-import { TRegisterPayload, TRegisterResponse } from "../types/register";
-import { postLoginFetcher, postRegisterFetcher } from "./fetcher";
+import {
+	TLogoutResponse,
+	TRegisterPayload,
+	TRegisterResponse,
+	TLoginPayload,
+	TLoginResponse,
+} from "./types";
+import {
+	getLogoutFetcher,
+	postLoginFetcher,
+	postRegisterFetcher,
+} from "./fetcher";
 import useSnackbarService from "@/hooks/useSnackbarService";
 import { handleErrorMessage } from "@/shared/utils";
-
-// #TODO
-type TTestQueryResponse = {
-	isTestError: boolean;
-	isTestLoading: boolean;
-	testData: TTestResponse;
-};
-type TTestResponse = any;
-export const getTestQueryFetcher = () => ({ data: "this is a test" });
-// #TODO
+import { TResponse } from "@/shared/types/api";
+import { useRouter } from "next/router";
+import { ROUTES } from "@/shared/constants/routes";
 
 export const useAuthenticationService = () => {
 	const snackbarService = useSnackbarService();
 	const useLoginMutation = () => {
+		const router = useRouter();
 		const mutation: UseMutationResult<
 			TResponse<TLoginResponse>,
 			TRequestError,
@@ -31,10 +34,12 @@ export const useAuthenticationService = () => {
 		> = useMutation(
 			async (payload: TLoginPayload) => postLoginFetcher(payload),
 			{
-				onSuccess: (response) =>
+				onSuccess: (response) => {
 					snackbarService.showSuccess({
 						message: response.message,
-					}),
+					});
+					router.push(ROUTES.HOMEPAGE);
+				},
 				onError: (error) =>
 					snackbarService.showError({
 						message: handleErrorMessage(error),
@@ -45,6 +50,8 @@ export const useAuthenticationService = () => {
 	};
 
 	const useRegisterMutation = () => {
+		const router = useRouter();
+
 		const mutation: UseMutationResult<
 			TResponse<TRegisterResponse>,
 			TRequestError,
@@ -52,10 +59,13 @@ export const useAuthenticationService = () => {
 		> = useMutation(
 			async (payload: TRegisterPayload) => postRegisterFetcher(payload),
 			{
-				onSuccess: (response) =>
+				onSuccess: (response) => {
 					snackbarService.showSuccess({
 						message: response.message,
-					}),
+					});
+					router.push(ROUTES.HOMEPAGE);
+				},
+
 				onError: (error) =>
 					snackbarService.showError({
 						message: handleErrorMessage(error),
@@ -65,28 +75,26 @@ export const useAuthenticationService = () => {
 		return mutation;
 	};
 
-	// Model only #TODO
-	const useGetTest = (): TTestQueryResponse => {
+	const useLogout = (proceedWithLogout: boolean): TLogoutResponse => {
 		const {
-			isError,
 			isLoading,
-			data,
-		}: UseQueryResult<TTestResponse, TRequestError> = useQuery(
-			["test"],
-			() => getTestQueryFetcher(),
+		}: UseQueryResult<TResponse<null>, TRequestError> = useQuery(
+			["logout"],
+			getLogoutFetcher,
 			{
-				select: (data: TTestResponse) => data,
-				onSuccess: (response) => {},
-				onError: (error) => {},
+				enabled: proceedWithLogout,
+				onSuccess: (response) => {
+					snackbarService.showSuccess({
+						message: response.message,
+					});
+				},
 			}
 		);
 
 		return {
-			isTestError: isError,
-			isTestLoading: isLoading,
-			testData: data.data,
+			isLogoutLoading: isLoading,
 		};
 	};
 
-	return { useLoginMutation, useRegisterMutation, useGetTest };
+	return { useLoginMutation, useRegisterMutation, useLogout };
 };

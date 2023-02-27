@@ -4,8 +4,8 @@ import { isEmpty, isNil } from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextConnect from "next-connect";
 import prisma from "prisma/prisma";
-import { schema } from "schemas/users";
-import { registerSchema } from "@/shared/constants/regEx";
+import { schema } from "schemas/user";
+import { registerSchema } from "@/shared/constants/validations";
 
 const Register = nextConnect({
 	onError(error, req: NextApiRequest, res: NextApiResponse) {
@@ -21,7 +21,7 @@ const Register = nextConnect({
 Register.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	const { firstName, lastName, email, password } = req.body;
 
-	const userAlreadyExist = await prisma.users.findUnique({
+	const userAlreadyExist = await prisma.user.findUnique({
 		where: {
 			email: email,
 		},
@@ -39,6 +39,7 @@ Register.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
 	if (!isEmpty(userAlreadyExist) || !isNil(userAlreadyExist)) {
 		return res.status(409).json({
+			status: 409,
 			message: "Email already exist.",
 		});
 	}
@@ -55,7 +56,7 @@ Register.post(async (req: NextApiRequest, res: NextApiResponse) => {
 					password: hash,
 					avatar: generateHexColor(),
 				});
-				return await prisma.users
+				return await prisma.user
 					.create({
 						data: {
 							firstName,
@@ -89,21 +90,18 @@ Register.post(async (req: NextApiRequest, res: NextApiResponse) => {
 								"Something went wrong, the user can't be created, " +
 								e.message,
 							status: 401,
-							data: {},
 						});
 					});
 			} else
 				return res.status(401).json({
 					message: `[BCRYPT]:${err}`,
 					status: 401,
-					data: {},
 				});
 		});
 	} else {
 		return res.status(401).json({
 			message: "Invalid credentials.",
 			status: 401,
-			data: {},
 		});
 	}
 });

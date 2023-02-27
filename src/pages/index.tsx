@@ -4,22 +4,29 @@ import Link from "next/link";
 import Brightness7Icon from "@mui/icons-material/Brightness4";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { ColorModeContext } from "./_app";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { useAuthenticationService } from "@/features/Authentication/service/useAuthenticationService";
+import { LogoutOutlined, NordicWalking } from "@mui/icons-material";
+import { getUserFetcher } from "@/features/UserProfile/service/fetchers";
+import { useUserService } from "@/features/UserProfile/service/useUserService";
 import { dehydrate, QueryClient } from "react-query";
-import {
-	getTestQueryFetcher,
-	useAuthenticationService,
-} from "@/features/Authentication/service/useAuthenticationService";
+import { ROUTES } from "@/shared/constants/routes";
 
 export default function Home() {
+	const [proceedWithLogout, setProceedWithLogout] = useState(false);
+	const { isUserLoggedIn, useGetCurrentUser } = useUserService();
+
+	const { isErrorCurrentUser, isLoadingCurrentUser, currentUserData } =
+		useGetCurrentUser();
+	console.log("isUserLoggedIn:: ", isUserLoggedIn);
+
 	const { t } = useTranslation("locale");
 	const theme = useTheme();
 	const colorMode = useContext(ColorModeContext);
 
-	const { useGetTest, useRegisterMutation } = useAuthenticationService();
-	const { isTestError, isTestLoading, testData } = useGetTest();
+	const { useLogout } = useAuthenticationService();
 
-	const mutation = useRegisterMutation();
+	const { isLogoutLoading } = useLogout(proceedWithLogout);
 
 	return (
 		<>
@@ -40,15 +47,22 @@ export default function Home() {
 					<Brightness4Icon />
 				)}
 			</IconButton>
-			<Box>
-				<Typography>{isTestError}</Typography>
-				<Typography>{isTestLoading}</Typography>
-				<Typography>{testData}</Typography>
-			</Box>
+			<IconButton onClick={() => setProceedWithLogout(true)}>
+				{isLogoutLoading ? <NordicWalking /> : <LogoutOutlined />}
+			</IconButton>
+			{isLoadingCurrentUser ? (
+				<Typography>Loading...</Typography>
+			) : (
+				<Box>
+					<Typography>{currentUserData.firstName}</Typography>
+					<Typography>{currentUserData.lastName}</Typography>
+					<Typography>{currentUserData.email}</Typography>
+				</Box>
+			)}
 			<Box color={theme.palette.primary.main}>{t("welcome")}</Box>
-			<Link href={"/register"}>Register</Link>
+			<Link href={ROUTES.REGISTER}>Register</Link>
 			<Divider />
-			<Link href={"/login"}>Login</Link>
+			<Link href={ROUTES.LOGIN}>Login</Link>
 		</>
 	);
 }
@@ -56,7 +70,7 @@ export default function Home() {
 export const getStaticProps = async () => {
 	const queryClient = new QueryClient();
 
-	await queryClient.prefetchQuery("test", getTestQueryFetcher);
+	await queryClient.prefetchQuery("currentUser", getUserFetcher);
 
 	return {
 		props: {
