@@ -1,4 +1,11 @@
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import {
+	Box,
+	Divider,
+	IconButton,
+	LoadingButton,
+	Typography,
+	useTheme,
+} from "@mui/material";
 import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
 import Brightness7Icon from "@mui/icons-material/Brightness4";
@@ -6,7 +13,7 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { ColorModeContext } from "./_app";
 import { useContext, useState } from "react";
 import { useAuthenticationService } from "@/features/Authentication/service/useAuthenticationService";
-import { LogoutOutlined, NordicWalking } from "@mui/icons-material";
+import { LogoutOutlined } from "@mui/icons-material";
 import { getUserFetcher } from "@/features/UserProfile/service/fetchers";
 import { useUserService } from "@/features/UserProfile/service/useUserService";
 import { dehydrate, QueryClient } from "react-query";
@@ -16,8 +23,7 @@ export default function Home() {
 	const [proceedWithLogout, setProceedWithLogout] = useState(false);
 	const { isUserLoggedIn, useGetCurrentUser } = useUserService();
 
-	const { isErrorCurrentUser, isLoadingCurrentUser, currentUserData } =
-		useGetCurrentUser();
+	const { isLoadingCurrentUser, currentUserData } = useGetCurrentUser();
 	console.log("isUserLoggedIn:: ", isUserLoggedIn);
 
 	const { t } = useTranslation("locale");
@@ -47,9 +53,14 @@ export default function Home() {
 					<Brightness4Icon />
 				)}
 			</IconButton>
-			<IconButton onClick={() => setProceedWithLogout(true)}>
-				{isLogoutLoading ? <NordicWalking /> : <LogoutOutlined />}
-			</IconButton>
+			{isUserLoggedIn && (
+				<LoadingButton
+					loading={isLogoutLoading}
+					onClick={() => setProceedWithLogout(true)}
+				>
+					<LogoutOutlined />
+				</LoadingButton>
+			)}
 			{isLoadingCurrentUser ? (
 				<Typography>Loading...</Typography>
 			) : (

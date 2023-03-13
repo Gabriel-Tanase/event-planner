@@ -7,9 +7,6 @@ const literal = z.union([z.string(), z.number(), z.boolean(), z.null()]);
 const jsonValue: z.ZodSchema<Prisma.JsonValue> = z.lazy(() =>
 	z.union([literal, z.array(jsonValue), z.record(jsonValue)])
 );
-const jsonSchema: z.ZodSchema<Prisma.InputJsonValue> = z.lazy(() =>
-	z.union([z.undefined(), literal, z.array(jsonValue), z.record(jsonValue)])
-);
 
 
 			export type Include = Prisma.HasInclude;
