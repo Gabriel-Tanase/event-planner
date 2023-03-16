@@ -3,6 +3,7 @@ import {
 	useMutation,
 	UseMutationResult,
 	useQuery,
+	useQueryClient,
 	UseQueryResult,
 } from "react-query";
 import {
@@ -22,6 +23,7 @@ import { handleErrorMessage } from "@/shared/utils";
 import { TResponse } from "@/shared/types/api";
 import { useRouter } from "next/router";
 import { ROUTES } from "@/shared/constants/routes";
+import { QUERY_KEYS } from "@/features/UserProfile/service/constants";
 
 export const useAuthenticationService = () => {
 	const snackbarService = useSnackbarService();
@@ -76,6 +78,8 @@ export const useAuthenticationService = () => {
 	};
 
 	const useLogout = (proceedWithLogout: boolean): TLogoutResponse => {
+		const queryClient = useQueryClient();
+
 		const {
 			isLoading,
 		}: UseQueryResult<TResponse<null>, TRequestError> = useQuery(
@@ -87,6 +91,11 @@ export const useAuthenticationService = () => {
 					snackbarService.showSuccess({
 						message: response.message,
 					});
+
+					queryClient.setQueryData(
+						QUERY_KEYS.CURRENT_USER,
+						undefined
+					);
 				},
 			}
 		);

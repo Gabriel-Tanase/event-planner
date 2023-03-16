@@ -1,4 +1,4 @@
 export enum PaletteModeEnum {
-	Dark = "dark",
-	Light = "light",
+  Dark = "dark",
+  Light = "light",
 }

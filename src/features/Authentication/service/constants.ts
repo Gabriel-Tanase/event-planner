@@ -1,5 +1,5 @@
 export const PATHS = {
-	LOGIN: "login",
-	REGISTER: "register",
-	LOGOUT: "logout",
+  LOGIN: "login",
+  REGISTER: "register",
+  LOGOUT: "logout",
 };

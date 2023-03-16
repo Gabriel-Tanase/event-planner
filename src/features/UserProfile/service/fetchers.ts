@@ -5,5 +5,5 @@ import { API_PATHS } from "./constants";
 
 export const getUserFetcher = async (): Promise<TResponse<TUserModel>> => {
 	const { data } = await axiosInstance.get(API_PATHS.CURRENT_USER);
-	return data;
+	return data.data;
 };

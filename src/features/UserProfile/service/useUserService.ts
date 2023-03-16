@@ -14,10 +14,12 @@ export const useUserService = () => {
 
 	const userCache = queryClient.getQueryData([
 		QUERY_KEYS.CURRENT_USER,
-	]) as TResponse<TUserModel>;
+	]) as TUserModel;
 
 	useEffect(() => {
-		if (!isEmpty(userCache?.data?.id)) {
+		if (isEmpty(userCache?.id)) {
+			setIsUserLoggedIn(false);
+		} else {
 			setIsUserLoggedIn(true);
 		}
 	}, [userCache]);
@@ -38,7 +40,7 @@ export const useUserService = () => {
 		return {
 			isErrorCurrentUser: isError,
 			isLoadingCurrentUser: isLoading,
-			currentUserData: data?.data,
+			currentUserData: data,
 		};
 	};
 

@@ -1,14 +1,23 @@
 {
-	"welcome": "Bun venit la planificatorul de evenimente",
-	"FORM": {
-		"FIRST_NAME": "Prenume",
-		"LAST_NAME": "Nume",
-		"EMAIL": "Email",
-		"PASSWORD": "Parola"
-	},
-	"BUTTONS": {
-		"CONTINUE": "Continuă",
-		"REGISTER": "Înregistrare",
-		"CANCEL": "Anulare"
-	}
+  "GENERAL": {
+    "DARK_MODE_ON": "Întuneric",
+    "DARK_MODE_OFF": "Lumină",
+    "ROMANIAN": "Română",
+    "ENGLISH": "Engleză"
+  },
+  "FORM": {
+    "FIRST_NAME": "Prenume",
+    "LAST_NAME": "Nume",
+    "EMAIL": "Email",
+    "PASSWORD": "Parola"
+  },
+  "BUTTONS": {
+    "CONTINUE": "Continuă",
+    "REGISTER": "Înregistrare",
+    "CANCEL": "Anulare",
+    "LOGIN": "Autentificare",
+    "LOGOUT": "Deconectare",
+    "MY_ACCOUNT": "Contul meu",
+    "START_PLANNING": "Începe planificarea"
+  }
 }

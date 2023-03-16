@@ -1,12 +1,12 @@
 import { useAuthenticationService } from "@/features/Authentication/service/useAuthenticationService";
 import { Box, Stack, TextField, Button, Typography } from "@mui/material";
-import Container from "@mui/material/Container";
 import useTranslation from "next-translate/useTranslation";
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { upperFirst } from "lodash";
 import { loginSchema } from "@/shared/constants/validations";
+import Layout from "@/Layouts/Layout";
 
 const Login = () => {
 	const { useLoginMutation } = useAuthenticationService();
@@ -31,8 +31,21 @@ const Login = () => {
 	const onClickContinue = handleSubmit((data) => mutation.mutate(data));
 
 	return (
-		<Container sx={{ paddingTop: "20px" }} maxWidth='md'>
-			<Box>
+		<Layout>
+			<Box
+				sx={{
+					maxWidth: "420px",
+					margin: "0 auto",
+				}}
+			>
+				<Typography
+					variant='h4'
+					mb={2}
+					textAlign='center'
+					fontWeight='600'
+				>
+					{t("BUTTONS.LOGIN")}
+				</Typography>
 				<form>
 					<Stack spacing={4}>
 						<Box>
@@ -80,7 +93,7 @@ const Login = () => {
 								{upperFirst(errors.password?.message)}
 							</Typography>
 						</Box>
-						<Box justifyContent={"center"}>
+						<Box justifyContent={"center"} display='flex'>
 							<Button onClick={onClickCancel}>
 								{t("BUTTONS.CANCEL")}
 							</Button>
@@ -95,7 +108,7 @@ const Login = () => {
 					</Stack>
 				</form>
 			</Box>
-		</Container>
+		</Layout>
 	);
 };
 
