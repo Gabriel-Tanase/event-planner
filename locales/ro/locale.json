@@ -1,23 +1,29 @@
 {
-  "GENERAL": {
-    "DARK_MODE_ON": "Întuneric",
-    "DARK_MODE_OFF": "Lumină",
-    "ROMANIAN": "Română",
-    "ENGLISH": "Engleză"
-  },
-  "FORM": {
-    "FIRST_NAME": "Prenume",
-    "LAST_NAME": "Nume",
-    "EMAIL": "Email",
-    "PASSWORD": "Parola"
-  },
-  "BUTTONS": {
-    "CONTINUE": "Continuă",
-    "REGISTER": "Înregistrare",
-    "CANCEL": "Anulare",
-    "LOGIN": "Autentificare",
-    "LOGOUT": "Deconectare",
-    "MY_ACCOUNT": "Contul meu",
-    "START_PLANNING": "Începe planificarea"
-  }
+	"GENERAL": {
+		"DARK_MODE_ON": "Întuneric",
+		"DARK_MODE_OFF": "Lumină",
+		"ROMANIAN": "Română",
+		"ENGLISH": "Engleză"
+	},
+	"FORM": {
+		"FIRST_NAME": "Prenume",
+		"LAST_NAME": "Nume",
+		"EMAIL": "Email",
+		"PASSWORD": "Parola"
+	},
+	"BUTTONS": {
+		"CONTINUE": "Continuă",
+		"REGISTER": "Înregistrare",
+		"CANCEL": "Anulare",
+		"LOGIN": "Autentificare",
+		"LOGOUT": "Deconectare",
+		"MY_ACCOUNT": "Contul meu",
+		"START_PLANNING": "Începe planificarea"
+	},
+	"AUTH": {
+		"LOGIN_FOOTER_CONTENT": "Nu ai un cont creat până acum?",
+		"LOGIN_FOOTER_BUTTON": "Crează-ți chiar acum!",
+		"REGISTER_FOOTER_CONTENT": "Ai un cont creat?",
+		"REGISTER_FOOTER_BUTTON": "Loghează-te acum!"
+	}
 }

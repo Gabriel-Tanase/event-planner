@@ -12,29 +12,32 @@ import Tooltip from "@mui/material/Tooltip";
 import useTranslation from "next-translate/useTranslation";
 import { useTheme } from "@mui/material";
 
-import Login from "@mui/icons-material/Login";
 import Logout from "@mui/icons-material/Logout";
-import PersonAdd from "@mui/icons-material/PersonAdd";
 import Avatar from "@mui/material/Avatar";
 import Brightness7Icon from "@mui/icons-material/Brightness4";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 
 import { useAuthenticationService } from "@/features/Authentication/service/useAuthenticationService";
-import { useUserService } from "@/features/UserProfile/service/useUserService";
 
 import { ColorModeContext } from "@/pages/_app";
 import { ROUTES } from "@/shared/constants/routes";
+import Authentication from "@/features/Authentication";
 
-const Account = () => {
+const Account: React.FC = () => {
 	const [proceedWithLogout, setProceedWithLogout] = useState(false);
 	const [anchorEl, setAnchorEl] = useState<null | any>(null);
 
 	const colorMode = useContext(ColorModeContext);
 	const { t } = useTranslation("locale");
 
-	const { isUserLoggedIn } = useUserService();
-	const { useLogout } = useAuthenticationService();
-	const {} = useLogout(proceedWithLogout);
+	const { useLogout, isUserLoggedIn } = useAuthenticationService();
+
+	const onLogoutSuccess = () => {
+		setProceedWithLogout(false);
+		handleClose();
+	};
+
+	const {} = useLogout(proceedWithLogout, onLogoutSuccess);
 
 	const open = Boolean(anchorEl);
 
@@ -44,6 +47,10 @@ const Account = () => {
 
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+
+	const onClickLogout = () => {
+		setProceedWithLogout(true);
 	};
 
 	const theme = useTheme();
@@ -67,7 +74,6 @@ const Account = () => {
 				id='account-menu'
 				open={open}
 				onClose={handleClose}
-				onClick={handleClose}
 				PaperProps={{
 					elevation: 0,
 					sx: {
@@ -91,7 +97,9 @@ const Account = () => {
 							<Avatar />
 						</ListItemIcon>
 						<Link href={ROUTES.ACCOUNT}>
-							<Typography>{t("BUTTONS.MY_ACCOUNT")}</Typography>
+							<Typography fontWeight={600}>
+								{t("BUTTONS.MY_ACCOUNT")}
+							</Typography>
 						</Link>
 					</MenuItem>
 				)}
@@ -104,7 +112,7 @@ const Account = () => {
 							<Brightness4Icon />
 						)}
 					</ListItemIcon>
-					<Typography>
+					<Typography fontWeight={600}>
 						{t(
 							`GENERAL.DARK_MODE_${
 								theme.palette.mode === "dark" ? "OFF" : "ON"
@@ -113,31 +121,20 @@ const Account = () => {
 					</Typography>
 				</MenuItem>
 				{isUserLoggedIn && (
-					<MenuItem onClick={() => setProceedWithLogout(true)}>
+					<MenuItem onClick={() => onClickLogout()}>
 						<ListItemIcon>
 							<Logout />
 						</ListItemIcon>
-						<Typography>{t("BUTTONS.LOGOUT")}</Typography>
+						<Typography fontWeight={600}>
+							{t("BUTTONS.LOGOUT")}
+						</Typography>
 					</MenuItem>
 				)}
 				{!isUserLoggedIn && (
 					<MenuItem>
-						<ListItemIcon>
-							<PersonAdd />
-						</ListItemIcon>
-						<Link href={ROUTES.REGISTER}>
-							<Typography>{t("BUTTONS.REGISTER")}</Typography>
-						</Link>
-					</MenuItem>
-				)}
-				{!isUserLoggedIn && (
-					<MenuItem>
-						<ListItemIcon>
-							<Login />
-						</ListItemIcon>
-						<Link href={ROUTES.LOGIN}>
-							<Typography>{t("BUTTONS.LOGIN")}</Typography>
-						</Link>
+						<Authentication
+							onAuthenticationSuccessfully={handleClose}
+						/>
 					</MenuItem>
 				)}
 			</Menu>

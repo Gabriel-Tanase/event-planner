@@ -4,14 +4,20 @@ import { useUserService } from "@/features/UserProfile/service/useUserService";
 import { dehydrate, QueryClient } from "react-query";
 import Layout from "@/Layouts/Layout";
 import { isEmpty } from "lodash";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { useAuthenticationService } from "@/features/Authentication/service/useAuthenticationService";
 
 export default function Home() {
 	const { useGetCurrentUser } = useUserService();
-	const { isLoadingCurrentUser, currentUserData } = useGetCurrentUser();
+	const { isUserLoggedIn } = useAuthenticationService();
+	console.log("index:::: ", isUserLoggedIn);
+	const { isLoadingCurrentUser, currentUserData } =
+		useGetCurrentUser(isUserLoggedIn);
+
 	return (
 		<Layout>
 			<>
-				{isLoadingCurrentUser && <Typography>Loading...</Typography>}
+				{isLoadingCurrentUser && <LoadingSpinner />}
 				{!isEmpty(currentUserData) && (
 					<Box>
 						<Typography>{currentUserData.firstName}</Typography>

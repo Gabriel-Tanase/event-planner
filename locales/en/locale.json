@@ -19,5 +19,11 @@
 		"LOGOUT": "Logout",
 		"MY_ACCOUNT": "My account",
 		"START_PLANNING": "Start planning"
+	},
+	"AUTH": {
+		"LOGIN_FOOTER_CONTENT": "You don't have an account already?",
+		"LOGIN_FOOTER_BUTTON": "Create one right now!",
+		"REGISTER_FOOTER_CONTENT": "Do you have an account?",
+		"REGISTER_FOOTER_BUTTON": "Login now!"
 	}
 }

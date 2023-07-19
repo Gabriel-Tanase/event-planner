@@ -1,4 +1,4 @@
-import { useUserService } from "@/features/UserProfile/service/useUserService";
+import { useAuthenticationService } from "@/features/Authentication/service/useAuthenticationService";
 import useNavigationService from "@/hooks/useNavigationService";
 import { alpha, useTheme } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -7,7 +7,7 @@ import useTranslation from "next-translate/useTranslation";
 import React from "react";
 
 const PlanEventButton = () => {
-	const { isUserLoggedIn } = useUserService();
+	const { isUserLoggedIn } = useAuthenticationService();
 	const { navigateToBuilder, navigateToLogin } = useNavigationService();
 	const { t } = useTranslation("locale");
 	const theme = useTheme();

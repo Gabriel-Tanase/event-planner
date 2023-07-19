@@ -1,17 +1,30 @@
 import { useAuthenticationService } from "@/features/Authentication/service/useAuthenticationService";
-import { Box, Stack, TextField, Button, Typography } from "@mui/material";
+import {
+	Box,
+	Stack,
+	TextField,
+	Button,
+	Typography,
+	Container,
+} from "@mui/material";
 import useTranslation from "next-translate/useTranslation";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { upperFirst } from "lodash";
 import { loginSchema } from "@/shared/constants/validations";
-import Layout from "@/Layouts/Layout";
+import { LoadingButton } from "@mui/lab";
 
-const Login = () => {
+type LoginProps = {
+	onClose: (...args: any[]) => void;
+	navigateToRegister: (...args: any[]) => void;
+};
+
+const Login: React.FC<LoginProps> = ({ onClose, navigateToRegister }) => {
 	const { useLoginMutation } = useAuthenticationService();
 
 	const mutation = useLoginMutation();
+	const { mutate, isLoading, isSuccess } = mutation;
 	const { t } = useTranslation("locale");
 
 	const {
@@ -27,25 +40,17 @@ const Login = () => {
 		mode: "onChange",
 	});
 
-	const onClickCancel = () => console.log("cancel");
-	const onClickContinue = handleSubmit((data) => mutation.mutate(data));
+	const onClickContinue = handleSubmit((data) => mutate(data));
+
+	useEffect(() => {
+		if (isSuccess) {
+			onClose();
+		}
+	}, [isSuccess]);
 
 	return (
-		<Layout>
-			<Box
-				sx={{
-					maxWidth: "420px",
-					margin: "0 auto",
-				}}
-			>
-				<Typography
-					variant='h4'
-					mb={2}
-					textAlign='center'
-					fontWeight='600'
-				>
-					{t("BUTTONS.LOGIN")}
-				</Typography>
+		<Container sx={{ paddingTop: "20px" }} maxWidth='md'>
+			<Box>
 				<form>
 					<Stack spacing={4}>
 						<Box>
@@ -93,22 +98,43 @@ const Login = () => {
 								{upperFirst(errors.password?.message)}
 							</Typography>
 						</Box>
-						<Box justifyContent={"center"} display='flex'>
-							<Button onClick={onClickCancel}>
+						<Box justifyContent={"center"} display='flex' gap={2}>
+							<Button
+								onClick={onClose}
+								variant='outlined'
+								color='error'
+								disabled={isLoading}
+							>
 								{t("BUTTONS.CANCEL")}
 							</Button>
-							<Button
+							<LoadingButton
 								type='submit'
 								onClick={onClickContinue}
+								variant='outlined'
 								disabled={!isValid}
+								color='success'
+								loading={isLoading}
 							>
 								{t("BUTTONS.CONTINUE")}
+							</LoadingButton>
+						</Box>
+						<Box textAlign='center'>
+							<Typography variant='caption' display='block'>
+								{t("AUTH.LOGIN_FOOTER_CONTENT")}
+							</Typography>
+							<Button
+								onClick={navigateToRegister}
+								variant='text'
+								color='info'
+								size='small'
+							>
+								{t("AUTH.LOGIN_FOOTER_BUTTON")}
 							</Button>
 						</Box>
 					</Stack>
 				</form>
 			</Box>
-		</Layout>
+		</Container>
 	);
 };
 
