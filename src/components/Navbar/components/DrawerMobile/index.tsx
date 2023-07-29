@@ -29,54 +29,63 @@ const DrawerMobile: FC<TDrawerMobile> = ({ window, isOpen, toggleDrawer }) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box component="nav">
-      <Drawer
-        container={container}
-        variant="temporary"
-        open={isOpen}
-        onClose={toggleDrawer}
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
-        sx={{
-          display: { xs: "block", sm: "none" },
-          "& .MuiDrawer-paper": {
-            boxSizing: "border-box",
-            width: drawerWidth,
-          },
-        }}
-      >
-        <Box sx={drawerInnerContainer}>
-          <Box>
-            <Typography variant="h6" sx={{ my: 2, textAlign: "center" }}>
-              Event planner
-            </Typography>
-            <Divider />
-            <List onClick={toggleDrawer}>
-              <ListItem>
-                <Link href={ROUTES.HOMEPAGE}>
-                  <Typography color={"custom.text"}>Link-1</Typography>
-                </Link>
-              </ListItem>
-              <ListItem>
-                <Link href={ROUTES.HOMEPAGE}>
-                  <Typography color={"custom.text"}>Link-2</Typography>
-                </Link>
-              </ListItem>
-              <ListItem>
-                <Link href={ROUTES.HOMEPAGE}>
-                  <Typography color={"custom.text"}>Link-3</Typography>
-                </Link>
-              </ListItem>
-            </List>
-          </Box>
-          <Box>
-            <Account />
-            <LanguageMenu />
-          </Box>
-        </Box>
-      </Drawer>
-    </Box>
+		<Box component='nav'>
+			<Drawer
+				container={container}
+				variant='temporary'
+				open={isOpen}
+				onClose={toggleDrawer}
+				ModalProps={{
+					keepMounted: true, // Better open performance on mobile.
+				}}
+				sx={{
+					display: { xs: "block", sm: "none" },
+					"& .MuiDrawer-paper": {
+						boxSizing: "border-box",
+						width: drawerWidth,
+					},
+				}}
+			>
+				<Box sx={drawerInnerContainer}>
+					<Box>
+						<Typography
+							variant='h6'
+							sx={{ my: 2, textAlign: "center" }}
+						>
+							Event planner
+						</Typography>
+						<Divider />
+						<List onClick={toggleDrawer}>
+							<ListItem>
+								<Link href={ROUTES.HOMEPAGE}>
+									<Typography color={"custom.text"}>
+										Link-1
+									</Typography>
+								</Link>
+							</ListItem>
+							<ListItem>
+								<Link href={ROUTES.HOMEPAGE}>
+									<Typography color={"custom.text"}>
+										Link-2
+									</Typography>
+								</Link>
+							</ListItem>
+							<ListItem>
+								<Link href={ROUTES.HOMEPAGE}>
+									<Typography color={"custom.text"}>
+										Link-3
+									</Typography>
+								</Link>
+							</ListItem>
+						</List>
+					</Box>
+					<Box>
+						<Account toggleDrawer={toggleDrawer} />
+						<LanguageMenu />
+					</Box>
+				</Box>
+			</Drawer>
+		</Box>
   );
 };
 

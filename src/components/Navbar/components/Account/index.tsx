@@ -22,22 +22,31 @@ import { useAuthenticationService } from "@/features/Authentication/service/useA
 import { ColorModeContext } from "@/pages/_app";
 import { ROUTES } from "@/shared/constants/routes";
 import Authentication from "@/features/Authentication";
+import { selectCurrentUser } from "@/features/UserProfile/service/useUserService";
+import { shadeColor } from "@/shared/utils";
 
-const Account: React.FC = () => {
+type TAccountProps = {
+	toggleDrawer: () => void;
+};
+
+const Account: React.FC<TAccountProps> = ({ toggleDrawer }) => {
 	const [proceedWithLogout, setProceedWithLogout] = useState(false);
 	const [anchorEl, setAnchorEl] = useState<null | any>(null);
 
 	const colorMode = useContext(ColorModeContext);
 	const { t } = useTranslation("locale");
 
-	const { useLogout, isUserLoggedIn } = useAuthenticationService();
+	const currentUser = selectCurrentUser();
+	console.log(currentUser);
+	const { useLogout, isUserAuthenticated } = useAuthenticationService();
 
 	const onLogoutSuccess = () => {
 		setProceedWithLogout(false);
 		handleClose();
+		toggleDrawer();
 	};
 
-	const {} = useLogout(proceedWithLogout, onLogoutSuccess);
+	useLogout(proceedWithLogout, onLogoutSuccess);
 
 	const open = Boolean(anchorEl);
 
@@ -49,8 +58,18 @@ const Account: React.FC = () => {
 		setAnchorEl(null);
 	};
 
+	const handleThemeChange = () => {
+		colorMode.toggleColorMode();
+		handleClose();
+	};
+
 	const onClickLogout = () => {
 		setProceedWithLogout(true);
+	};
+
+	const onAuthenticationSuccessfully = () => {
+		handleClose();
+		toggleDrawer();
 	};
 
 	const theme = useTheme();
@@ -91,10 +110,17 @@ const Account: React.FC = () => {
 				transformOrigin={{ horizontal: "right", vertical: "top" }}
 				anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 			>
-				{isUserLoggedIn && (
+				{isUserAuthenticated && (
 					<MenuItem onClick={handleClose}>
 						<ListItemIcon>
-							<Avatar />
+							<Avatar
+								sx={{
+									backgroundColor: currentUser?.avatar,
+									color: shadeColor(
+										currentUser?.avatar || "#fff"
+									),
+								}}
+							/>
 						</ListItemIcon>
 						<Link href={ROUTES.ACCOUNT}>
 							<Typography fontWeight={600}>
@@ -103,8 +129,8 @@ const Account: React.FC = () => {
 						</Link>
 					</MenuItem>
 				)}
-				{isUserLoggedIn && <Divider />}
-				<MenuItem onClick={colorMode.toggleColorMode}>
+				{isUserAuthenticated && <Divider />}
+				<MenuItem onClick={handleThemeChange}>
 					<ListItemIcon>
 						{theme.palette.mode === "dark" ? (
 							<Brightness7Icon />
@@ -120,8 +146,8 @@ const Account: React.FC = () => {
 						)}
 					</Typography>
 				</MenuItem>
-				{isUserLoggedIn && (
-					<MenuItem onClick={() => onClickLogout()}>
+				{isUserAuthenticated && (
+					<MenuItem onClick={onClickLogout}>
 						<ListItemIcon>
 							<Logout />
 						</ListItemIcon>
@@ -130,10 +156,12 @@ const Account: React.FC = () => {
 						</Typography>
 					</MenuItem>
 				)}
-				{!isUserLoggedIn && (
+				{!isUserAuthenticated && (
 					<MenuItem>
 						<Authentication
-							onAuthenticationSuccessfully={handleClose}
+							onAuthenticationSuccessfully={
+								onAuthenticationSuccessfully
+							}
 						/>
 					</MenuItem>
 				)}

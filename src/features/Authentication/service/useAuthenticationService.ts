@@ -27,15 +27,15 @@ import { ROUTES } from "@/shared/constants/routes";
 import { QUERY_KEYS } from "@/features/UserProfile/service/constants";
 import { QUERY_KEYS as AUTH_QUERY_KEYS } from "@/features/Authentication/service/constants";
 import { TVerifyResponse } from "@/features/UserProfile/service/types";
-import { useGetCurrentUser } from "@/features/UserProfile/service/useUserService";
+
 
 export const useAuthenticationService = () => {
 	const queryClient = useQueryClient();
 
-	const isUserLoggedIn = Boolean(
+	const isUserAuthenticated = Boolean(
 		queryClient.getQueryData<TVerifyTokenResponse>([
 			AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN,
-		])?.isUserLoggedIn
+		])?.isUserAuthenticated
 	);
 
 	const snackbarService = useSnackbarService();
@@ -55,6 +55,7 @@ export const useAuthenticationService = () => {
 					snackbarService.showSuccess({
 						message: "Login successfully!",
 					});
+
 					queryClient.invalidateQueries(
 						AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN
 					);
@@ -130,12 +131,21 @@ export const useAuthenticationService = () => {
 		};
 	};
 
-	const useVerifyLoggedIn = (): TVerifyResponse => {
+	const useVerifyLoggedIn = (
+		proceedWithVerify: boolean = true
+	): TVerifyResponse => {
+		console.log("here");
 		const { data }: UseQueryResult<TVerifyResponse, TRequestError> =
-			useQuery([AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN], getVerifyFetcher);
+			useQuery(
+				[AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN],
+				getVerifyFetcher,
+				{
+					// enabled: !!proceedWithVerify,
+				}
+			);
 
 		return {
-			isUserLoggedIn: data?.isUserLoggedIn as boolean,
+			isUserAuthenticated: data?.isUserAuthenticated as boolean,
 		};
 	};
 
@@ -143,7 +153,7 @@ export const useAuthenticationService = () => {
 		useLoginMutation,
 		useRegisterMutation,
 		useLogout,
-		isUserLoggedIn,
+		isUserAuthenticated,
 		useVerifyLoggedIn,
 	};
 };

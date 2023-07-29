@@ -13,6 +13,7 @@ import Account from "./components/Account";
 import DrawerMobile from "./components/DrawerMobile";
 import LanguageMenu from "./components/Language";
 import PlanEventButton from "./components/PlanEventButton";
+import { noop } from "lodash";
 
 export const navbarHeight = 64;
 const BrandingImage = images.Branding;
@@ -109,7 +110,7 @@ const Navbar = (props: any) => {
 						>
 							<PlanEventButton />
 							<LanguageMenu />
-							<Account />
+							<Account toggleDrawer={noop} />
 						</Grid>
 					</Grid>
 				</Toolbar>

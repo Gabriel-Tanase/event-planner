@@ -29,5 +29,5 @@ export type TRegisterResponse = {
 };
 
 export type TVerifyTokenResponse = {
-	isUserLoggedIn: boolean;
+	isUserAuthenticated: boolean;
 };

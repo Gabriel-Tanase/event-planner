@@ -5,9 +5,10 @@ import { TUserQueryResponse } from "./types";
 import { TUserModel } from "../types/user";
 import { QUERY_KEYS } from "./constants";
 import { handleHttpErrorMessage } from "@/shared/utils";
+import { queryClient } from "config/reactQuery";
 
 export const useGetCurrentUser = (
-	isUserLoggedIn: boolean
+	isUserAuthenticated: boolean
 ): TUserQueryResponse => {
 	const {
 		isError,
@@ -17,7 +18,7 @@ export const useGetCurrentUser = (
 		[QUERY_KEYS.CURRENT_USER],
 		getUserFetcher,
 		{
-			enabled: !!isUserLoggedIn,
+			enabled: !!isUserAuthenticated,
 			onError: (error) => handleHttpErrorMessage(error),
 		}
 	);
@@ -28,3 +29,6 @@ export const useGetCurrentUser = (
 		currentUserData: data,
 	};
 };
+
+export const selectCurrentUser = () =>
+	queryClient.getQueryData<TUserModel>(QUERY_KEYS.CURRENT_USER);

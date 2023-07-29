@@ -22,12 +22,12 @@ Verify.get(async (req: NextApiRequest, res: NextApiResponse) => {
 			if (!err && decoded) {
 				console.log(decoded);
 				return res.status(200).json({
-					isUserLoggedIn: true,
+					isUserAuthenticated: true,
 				});
 			}
 
 			return res.status(200).json({
-				isUserLoggedIn: false,
+				isUserAuthenticated: false,
 			});
 		}
 	);

@@ -7,13 +7,13 @@ import useTranslation from "next-translate/useTranslation";
 import React from "react";
 
 const PlanEventButton = () => {
-	const { isUserLoggedIn } = useAuthenticationService();
+	const { isUserAuthenticated } = useAuthenticationService();
 	const { navigateToBuilder, navigateToLogin } = useNavigationService();
 	const { t } = useTranslation("locale");
 	const theme = useTheme();
 
 	const onClickStartPlanning = () => {
-		if (isUserLoggedIn) {
+		if (isUserAuthenticated) {
 			navigateToBuilder();
 		} else {
 			navigateToLogin();

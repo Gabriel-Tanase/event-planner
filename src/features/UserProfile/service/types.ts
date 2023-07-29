@@ -1,9 +1,11 @@
+import { TUserModel } from "../types/user";
+
 export type TUserQueryResponse = {
 	isErrorCurrentUser: boolean;
 	isLoadingCurrentUser: boolean;
-	currentUserData: any;
+	currentUserData: TUserModel | undefined;
 };
 
 export type TVerifyResponse = {
-	isUserLoggedIn: boolean;
+	isUserAuthenticated: boolean;
 };
