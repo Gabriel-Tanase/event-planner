@@ -27,3 +27,7 @@ export type TRegisterPayload = {
 export type TRegisterResponse = {
 	userId: string;
 };
+
+export type TVerifyTokenResponse = {
+	isUserLoggedIn: boolean;
+};

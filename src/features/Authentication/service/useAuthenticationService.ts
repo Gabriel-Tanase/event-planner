@@ -12,66 +12,56 @@ import {
 	TRegisterResponse,
 	TLoginPayload,
 	TLoginResponse,
+	TVerifyTokenResponse,
 } from "./types";
 import {
 	getLogoutFetcher,
+	getVerifyFetcher,
 	postLoginFetcher,
 	postRegisterFetcher,
 } from "./fetcher";
 import useSnackbarService from "@/hooks/useSnackbarService";
-import { handleErrorMessage } from "@/shared/utils";
-import { TResponse } from "@/shared/types/api";
+import { handleHttpErrorMessage } from "@/shared/utils";
 import { useRouter } from "next/router";
 import { ROUTES } from "@/shared/constants/routes";
 import { QUERY_KEYS } from "@/features/UserProfile/service/constants";
-import { useEffect, useState } from "react";
-import { TUserModel } from "@/features/UserProfile/types/user";
-import { isEmpty } from "lodash";
-import { useUserService } from "@/features/UserProfile/service/useUserService";
+import { QUERY_KEYS as AUTH_QUERY_KEYS } from "@/features/Authentication/service/constants";
+import { TVerifyResponse } from "@/features/UserProfile/service/types";
+import { useGetCurrentUser } from "@/features/UserProfile/service/useUserService";
 
 export const useAuthenticationService = () => {
-	const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 	const queryClient = useQueryClient();
 
-	const userCache = queryClient.getQueryData([
-		QUERY_KEYS.CURRENT_USER,
-	]) as TUserModel;
-
-	useEffect(() => {
-		if (isEmpty(userCache?.id)) {
-			setIsUserLoggedIn(false);
-		} else {
-			setIsUserLoggedIn(true);
-		}
-	}, [userCache]);
-
-	console.log("user:: ", userCache);
-	console.log("is logged in:: ", isUserLoggedIn);
+	const isUserLoggedIn = Boolean(
+		queryClient.getQueryData<TVerifyTokenResponse>([
+			AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN,
+		])?.isUserLoggedIn
+	);
 
 	const snackbarService = useSnackbarService();
 
 	const useLoginMutation = () => {
 		const router = useRouter();
-		// const { useGetCurrentUser } = useUserService();
-		// const {} = useGetCurrentUser(isUserLoggedIn);
 
 		const mutation: UseMutationResult<
-			TResponse<TLoginResponse>,
+			TLoginResponse,
 			TRequestError,
 			TLoginPayload
 		> = useMutation(
 			async (payload: TLoginPayload) => postLoginFetcher(payload),
 			{
-				onSuccess: (response) => {
-					setIsUserLoggedIn(true);
+				onSuccess: () => {
 					router.push(ROUTES.HOMEPAGE);
 					snackbarService.showSuccess({
-						message: response.message,
+						message: "Login successfully!",
 					});
+					queryClient.invalidateQueries(
+						AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN
+					);
 				},
 				onError: (error) =>
 					snackbarService.showError({
-						message: handleErrorMessage(error),
+						message: handleHttpErrorMessage(error),
 					}),
 			}
 		);
@@ -82,7 +72,7 @@ export const useAuthenticationService = () => {
 		const router = useRouter();
 
 		const mutation: UseMutationResult<
-			TResponse<TRegisterResponse>,
+			TRegisterResponse,
 			TRequestError,
 			TRegisterPayload
 		> = useMutation(
@@ -90,14 +80,14 @@ export const useAuthenticationService = () => {
 			{
 				onSuccess: (response) => {
 					snackbarService.showSuccess({
-						message: response.message,
+						message: "Create account successfully.",
 					});
 					router.push(ROUTES.HOMEPAGE);
 				},
 
 				onError: (error) =>
 					snackbarService.showError({
-						message: handleErrorMessage(error),
+						message: handleHttpErrorMessage(error),
 					}),
 			}
 		);
@@ -110,16 +100,14 @@ export const useAuthenticationService = () => {
 	): TLogoutResponse => {
 		const queryClient = useQueryClient();
 
-		const {
-			isLoading,
-		}: UseQueryResult<TResponse<null>, TRequestError> = useQuery(
+		const { isLoading }: UseQueryResult<null, TRequestError> = useQuery(
 			["logout"],
 			getLogoutFetcher,
 			{
 				enabled: proceedWithLogout,
-				onSuccess: (response) => {
+				onSuccess: () => {
 					snackbarService.showSuccess({
-						message: response.message,
+						message: "Logout successfully.",
 					});
 
 					queryClient.setQueryData(
@@ -127,7 +115,11 @@ export const useAuthenticationService = () => {
 						undefined
 					);
 
-					setIsUserLoggedIn(false);
+					queryClient.setQueryData(
+						AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN,
+						undefined
+					);
+
 					onLogoutSuccess();
 				},
 			}
@@ -138,5 +130,20 @@ export const useAuthenticationService = () => {
 		};
 	};
 
-	return { useLoginMutation, useRegisterMutation, useLogout, isUserLoggedIn };
+	const useVerifyLoggedIn = (): TVerifyResponse => {
+		const { data }: UseQueryResult<TVerifyResponse, TRequestError> =
+			useQuery([AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN], getVerifyFetcher);
+
+		return {
+			isUserLoggedIn: data?.isUserLoggedIn as boolean,
+		};
+	};
+
+	return {
+		useLoginMutation,
+		useRegisterMutation,
+		useLogout,
+		isUserLoggedIn,
+		useVerifyLoggedIn,
+	};
 };

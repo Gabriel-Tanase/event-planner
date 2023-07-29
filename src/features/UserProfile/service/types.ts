@@ -3,3 +3,7 @@ export type TUserQueryResponse = {
 	isLoadingCurrentUser: boolean;
 	currentUserData: any;
 };
+
+export type TVerifyResponse = {
+	isUserLoggedIn: boolean;
+};

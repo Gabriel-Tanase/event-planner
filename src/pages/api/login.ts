@@ -35,7 +35,7 @@ Login.post(async (req: NextApiRequest, res: NextApiResponse) => {
 				});
 				res.setHeader(
 					"Set-Cookie",
-					cookie.serialize("auth-event-planner", JWT, {
+					cookie.serialize("authorization", JWT, {
 						httpOnly: true,
 						secure: process.env.NODE_ENV !== "development",
 						sameSite: "strict",
@@ -44,11 +44,7 @@ Login.post(async (req: NextApiRequest, res: NextApiResponse) => {
 					})
 				);
 				res.status(200).json({
-					message: "Login successfully.",
-					status: 200,
-					data: {
-						userId: user.id,
-					},
+					userId: user.id,
 				});
 				res.end();
 			} else

@@ -12,12 +12,12 @@ export const authorization =
       req.cookies.authorization as string,
       process.env.JWT_KEY as string,
       async (err: any, decoded: any) => {
-        if (!err && decoded) {
-          req.decoded = decoded;
-          return await fn(req as NextApiRequestAuthorized, res);
-        }
+			if (!err && decoded) {
+				req.decoded = decoded;
+				return await fn(req as NextApiRequestAuthorized, res);
+			}
 
-        return res.redirect(401, ROUTES.LOGIN);
-      }
+			return res.redirect(401, ROUTES.HOMEPAGE);
+		}
     );
   };

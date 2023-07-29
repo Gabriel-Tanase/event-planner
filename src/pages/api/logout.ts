@@ -18,7 +18,7 @@ const Logout = nextConnect({
 
 Logout.get(async (req: NextApiRequestAuthorized, res: NextApiResponse) => {
 	res.setHeader("Set-Cookie", [
-		cookie.serialize("auth-event-planner", "", {
+		cookie.serialize("authorization", "", {
 			httpOnly: true,
 			secure: process.env.NODE_ENV !== "development",
 			sameSite: "strict",
@@ -26,10 +26,7 @@ Logout.get(async (req: NextApiRequestAuthorized, res: NextApiResponse) => {
 			path: "/",
 		}),
 	]);
-	return res.status(200).json({
-		message: "Logout successfully.",
-		status: 200,
-	});
+	return res.status(200).json({});
 });
 
 export default authorization(Logout);

@@ -77,12 +77,8 @@ Register.post(async (req: NextApiRequest, res: NextApiResponse) => {
           .then((data: any) => {
             // [TBI] Send confirmation email
             return res.status(201).json({
-              message: "User was created.",
-              status: 200,
-              data: {
-                userId: data.id,
-              },
-            });
+				userId: data.id,
+			});
           })
           .catch((e: any) => {
             return res.status(401).json({

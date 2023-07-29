@@ -1,16 +1,16 @@
+import { dehydrate, QueryClient } from "react-query";
+import { isEmpty } from "lodash";
 import { Box, Typography } from "@mui/material";
 import { getUserFetcher } from "@/features/UserProfile/service/fetchers";
-import { useUserService } from "@/features/UserProfile/service/useUserService";
-import { dehydrate, QueryClient } from "react-query";
+import { useGetCurrentUser } from "@/features/UserProfile/service/useUserService";
 import Layout from "@/Layouts/Layout";
-import { isEmpty } from "lodash";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useAuthenticationService } from "@/features/Authentication/service/useAuthenticationService";
+import { getVerifyFetcher } from "@/features/Authentication/service/fetcher";
 
 export default function Home() {
-	const { useGetCurrentUser } = useUserService();
-	const { isUserLoggedIn } = useAuthenticationService();
-	console.log("index:::: ", isUserLoggedIn);
+	const { useVerifyLoggedIn } = useAuthenticationService();
+	const { isUserLoggedIn } = useVerifyLoggedIn();
 	const { isLoadingCurrentUser, currentUserData } =
 		useGetCurrentUser(isUserLoggedIn);
 
@@ -37,6 +37,7 @@ export const getStaticProps = async () => {
 	const queryClient = new QueryClient();
 
 	await queryClient.prefetchQuery("currentUser", getUserFetcher);
+	await queryClient.prefetchQuery("isCurrentUserLogged", getVerifyFetcher);
 
 	return {
 		props: {
