@@ -18,9 +18,9 @@ import { LoadingButton } from "@mui/lab";
 import { TRegisterPayload } from "../../service/types";
 
 type RegisterProps = {
-	switchToLogin: (...args: any[]) => void;
-	onClose: (...args: any[]) => void;
-	navigateToLogin: (...args: any[]) => void;
+	switchToLogin: () => void;
+	onClose: () => void;
+	navigateToLogin: () => void;
 };
 
 const Register: React.FC<RegisterProps> = ({

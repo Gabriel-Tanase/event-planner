@@ -131,18 +131,9 @@ export const useAuthenticationService = () => {
 		};
 	};
 
-	const useVerifyLoggedIn = (
-		proceedWithVerify: boolean = true
-	): TVerifyResponse => {
-		console.log("here");
+	const useVerifyLoggedIn = (): TVerifyResponse => {
 		const { data }: UseQueryResult<TVerifyResponse, TRequestError> =
-			useQuery(
-				[AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN],
-				getVerifyFetcher,
-				{
-					// enabled: !!proceedWithVerify,
-				}
-			);
+			useQuery([AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN], getVerifyFetcher);
 
 		return {
 			isUserAuthenticated: data?.isUserAuthenticated as boolean,

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-let prisma: any;
+let prisma: PrismaClient;
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 

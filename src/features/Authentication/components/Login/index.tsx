@@ -16,8 +16,8 @@ import { loginSchema } from "@/shared/constants/validations";
 import { LoadingButton } from "@mui/lab";
 
 type LoginProps = {
-	onClose: (...args: any[]) => void;
-	navigateToRegister: (...args: any[]) => void;
+	onClose: () => void;
+	navigateToRegister: () => void;
 };
 
 const Login: React.FC<LoginProps> = ({ onClose, navigateToRegister }) => {

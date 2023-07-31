@@ -1,5 +1,5 @@
 import { NextApiResponse } from "next";
-import { verify } from "jsonwebtoken";
+import { VerifyErrors, VerifyOptions, verify } from "jsonwebtoken";
 
 import { NextApiRequestAuthorized } from "@/shared/types/api";
 import { NextConnect } from "next-connect";

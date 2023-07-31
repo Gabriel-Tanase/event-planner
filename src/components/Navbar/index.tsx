@@ -15,10 +15,14 @@ import LanguageMenu from "./components/Language";
 import PlanEventButton from "./components/PlanEventButton";
 import { noop } from "lodash";
 
+type TNavbarProps = {
+	window: any;
+};
+
 export const navbarHeight = 64;
 const BrandingImage = images.Branding;
 
-const Navbar = (props: any) => {
+const Navbar: React.FC<TNavbarProps> = (props) => {
 	const { window } = props;
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
