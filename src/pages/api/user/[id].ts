@@ -34,11 +34,10 @@ GetUserById.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
 	if (!isEmpty(user)) {
 		return res.status(200).send(user);
-	} else {
-		return res.status(200).send({
-			message: "Can't find the user.",
-		});
 	}
+	return res.status(200).send({
+		message: "Can't find the user.",
+	});
 });
 
 export default GetUserById;

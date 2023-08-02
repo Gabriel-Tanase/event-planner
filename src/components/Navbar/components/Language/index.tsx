@@ -32,11 +32,13 @@ const LanguageMenu = () => {
 
   const changeLanguageTo = (language: Language) => {
     switch (language) {
-      case Language.Ro:
-        return changeLocale(Language.Ro);
-      case Language.En:
-        return changeLocale(Language.En);
-    }
+		case Language.Ro:
+			return changeLocale(Language.Ro);
+		case Language.En:
+			return changeLocale(Language.En);
+		default:
+			return changeLocale(Language.Ro);
+	}
   };
 
   return (

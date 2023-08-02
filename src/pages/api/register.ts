@@ -18,13 +18,14 @@ const Register = nextConnect({
   },
 });
 
+// eslint-disable-next-line consistent-return
 Register.post(async (req: NextApiRequest, res: NextApiResponse) => {
   const { firstName, lastName, email, password } = req.body;
 
   const userAlreadyExist = await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
+		where: {
+			email,
+		},
   });
 
   const isSchemaValid = await registerSchema
@@ -49,49 +50,48 @@ Register.post(async (req: NextApiRequest, res: NextApiResponse) => {
   if (isSchemaValid) {
     hash(password, 12, async (err, hash) => {
       if (!err) {
-        schema.parse({
-          firstName,
-          lastName,
-          email,
-          password: hash,
-          avatar: generateHexColor(),
-        });
-        return await prisma.user
-          .create({
-            data: {
-              firstName,
-              lastName,
-              email,
-              password: hash,
-              avatar: generateHexColor(),
-
-              // profile: {
-              //   create: {
-              // 	sports: [],
-              // 	sessionTypes: [],
-              // 	sessionLocations: []
-              //   }
-              // }
-            },
-          })
-          .then((data: any) => {
-            // [TBI] Send confirmation email
-            return res.status(201).json({
-				userId: data.id,
+			schema.parse({
+				firstName,
+				lastName,
+				email,
+				password: hash,
+				avatar: generateHexColor(),
 			});
-          })
-          .catch((e: any) => {
-            return res.status(401).json({
-              message:
-                "Something went wrong, the user can't be created, " + e.message,
-              status: 401,
-            });
-          });
-      } else
-        return res.status(401).json({
-          message: `[BCRYPT]:${err}`,
-          status: 401,
-        });
+			return prisma.user
+				.create({
+					data: {
+						firstName,
+						lastName,
+						email,
+						password: hash,
+						avatar: generateHexColor(),
+
+						// profile: {
+						//   create: {
+						// 	sports: [],
+						// 	sessionTypes: [],
+						// 	sessionLocations: []
+						//   }
+						// }
+					},
+				})
+				.then((data: any) =>
+					// [TBI] Send confirmation email
+					res.status(201).json({
+						userId: data.id,
+					})
+				)
+				.catch((e: any) =>
+					res.status(401).json({
+						message: `Something went wrong, the user can't be created, ${e.message}`,
+						status: 401,
+					})
+				);
+		}
+		return res.status(401).json({
+			message: `[BCRYPT]:${err}`,
+			status: 401,
+		});
     });
   } else {
     return res.status(401).json({

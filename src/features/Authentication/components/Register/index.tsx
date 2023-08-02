@@ -80,7 +80,7 @@ const Register: React.FC<RegisterProps> = ({
 							/>
 							<Typography
 								variant='subtitle2'
-								color={"error.main"}
+								color='error.main'
 								mt='10px'
 							>
 								{upperFirst(errors.firstName?.message)}
@@ -102,7 +102,7 @@ const Register: React.FC<RegisterProps> = ({
 							/>
 							<Typography
 								variant='subtitle2'
-								color={"error.main"}
+								color='error.main'
 								mt='10px'
 							>
 								{upperFirst(errors.lastName?.message)}
@@ -124,7 +124,7 @@ const Register: React.FC<RegisterProps> = ({
 							/>
 							<Typography
 								variant='subtitle2'
-								color={"error.main"}
+								color='error.main'
 								mt='10px'
 							>
 								{upperFirst(errors.email?.message)}
@@ -147,7 +147,7 @@ const Register: React.FC<RegisterProps> = ({
 							/>
 							<Typography
 								variant='subtitle2'
-								color={"error.main"}
+								color='error.main'
 								mt='10px'
 							>
 								{upperFirst(errors.password?.message)}
@@ -167,7 +167,7 @@ const Register: React.FC<RegisterProps> = ({
 								</Typography>
 							</Box>
 						</Box>
-						<Box justifyContent={"center"} display='flex' gap={2}>
+						<Box justifyContent='center' display='flex' gap={2}>
 							<Button
 								onClick={onClose}
 								variant='outlined'

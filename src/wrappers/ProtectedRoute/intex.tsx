@@ -21,7 +21,7 @@ const ProtectedRoute: React.FC<{ children: ReactElement }> = ({ children }) => {
 		);
 	}
 
-	return <>{children}</>;
+	return children;
 };
 
 export default ProtectedRoute;

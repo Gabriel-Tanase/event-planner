@@ -13,17 +13,18 @@ export default function useSnackbarService() {
   const snackbar = useSnackbar();
   return React.useMemo(() => {
     const showMessage =
-      (type: string) =>
-      ({
-        message,
-        action,
-        handleAction,
-        customParameters,
-      }: TSnackBarServiceProps) =>
-        snackbar.showMessage(message, action, (handleAction = () => {}), {
-          ...customParameters,
-          type,
-        });
+		(type: string) =>
+		// eslint-disable-next-line no-return-assign
+		({
+			message,
+			action,
+			handleAction,
+			customParameters,
+		}: TSnackBarServiceProps) =>
+			snackbar.showMessage(message, action, handleAction, {
+				...customParameters,
+				type,
+			});
     return {
       ...snackbar,
       showInfo: showMessage(SnackbarSeverityType.Info),

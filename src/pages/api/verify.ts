@@ -14,8 +14,8 @@ const Verify = nextConnect({
 	},
 });
 
-Verify.get(async (req: NextApiRequest, res: NextApiResponse) => {
-	return verify(
+Verify.get(async (req: NextApiRequest, res: NextApiResponse) =>
+	verify(
 		req.cookies.authorization as string,
 		process.env.JWT_KEY as string,
 		async (err: any, decoded: any) => {
@@ -29,7 +29,7 @@ Verify.get(async (req: NextApiRequest, res: NextApiResponse) => {
 				isUserAuthenticated: false,
 			});
 		}
-	);
-});
+	)
+);
 
 export default Verify;

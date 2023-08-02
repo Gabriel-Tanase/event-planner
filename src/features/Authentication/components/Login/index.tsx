@@ -30,7 +30,7 @@ const Login: React.FC<LoginProps> = ({ onClose, navigateToRegister }) => {
 	const {
 		handleSubmit,
 		control,
-		formState: { isDirty, isValid, errors },
+		formState: { isValid, errors },
 	} = useForm({
 		resolver: yupResolver(loginSchema),
 		defaultValues: {
@@ -69,7 +69,7 @@ const Login: React.FC<LoginProps> = ({ onClose, navigateToRegister }) => {
 							/>
 							<Typography
 								variant='subtitle2'
-								color={"error.main"}
+								color='error.main'
 								mt='10px'
 							>
 								{upperFirst(errors.email?.message)}
@@ -92,13 +92,13 @@ const Login: React.FC<LoginProps> = ({ onClose, navigateToRegister }) => {
 							/>
 							<Typography
 								variant='subtitle2'
-								color={"error.main"}
+								color='error.main'
 								mt='10px'
 							>
 								{upperFirst(errors.password?.message)}
 							</Typography>
 						</Box>
-						<Box justifyContent={"center"} display='flex' gap={2}>
+						<Box justifyContent='center' display='flex' gap={2}>
 							<Button
 								onClick={onClose}
 								variant='outlined'

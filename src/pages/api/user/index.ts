@@ -37,13 +37,13 @@ GetCurrentUser.get(
     });
 
     if (!isEmpty(user)) {
-      return res.status(200).send(user);
-    } else {
-      return res.status(200).send({
-        message: "Cannot find the current user.",
-        status: 200,
-      });
-    }
+		return res.status(200).send(user);
+	}
+	return res.status(200).send({
+		message: "Cannot find the current user.",
+		status: 200,
+	});
+    
   }
 );
 

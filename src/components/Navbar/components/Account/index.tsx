@@ -14,7 +14,7 @@ import { useTheme } from "@mui/material";
 
 import Logout from "@mui/icons-material/Logout";
 import Avatar from "@mui/material/Avatar";
-import Brightness7Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 
 import { useAuthenticationService } from "@/features/Authentication/service/useAuthenticationService";
@@ -33,20 +33,12 @@ const Account: React.FC<TAccountProps> = ({ toggleDrawer }) => {
 	const [proceedWithLogout, setProceedWithLogout] = useState(false);
 	const [anchorEl, setAnchorEl] = useState<null | any>(null);
 
-	const colorMode = useContext(ColorModeContext);
+	const { toggleColorMode } = useContext(ColorModeContext);
 	const { t } = useTranslation("locale");
 
 	const currentUser = selectCurrentUser();
 
 	const { useLogout, isUserAuthenticated } = useAuthenticationService();
-
-	const onLogoutSuccess = () => {
-		setProceedWithLogout(false);
-		handleClose();
-		toggleDrawer();
-	};
-
-	useLogout(proceedWithLogout, onLogoutSuccess);
 
 	const open = Boolean(anchorEl);
 
@@ -58,8 +50,16 @@ const Account: React.FC<TAccountProps> = ({ toggleDrawer }) => {
 		setAnchorEl(null);
 	};
 
+	const onLogoutSuccess = () => {
+		setProceedWithLogout(false);
+		handleClose();
+		toggleDrawer();
+	};
+
+	useLogout(proceedWithLogout, onLogoutSuccess);
+
 	const handleThemeChange = () => {
-		colorMode.toggleColorMode();
+		toggleColorMode();
 		handleClose();
 	};
 

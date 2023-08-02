@@ -85,17 +85,17 @@ const Navbar: React.FC<TNavbarProps> = (props) => {
 							}}
 						>
 							<Link href={ROUTES.HOMEPAGE}>
-								<Typography color={"custom.textWhite"}>
+								<Typography color='custom.textWhite'>
 									Link-1
 								</Typography>
 							</Link>
 							<Link href={ROUTES.HOMEPAGE}>
-								<Typography color={"custom.textWhite"}>
+								<Typography color='custom.textWhite'>
 									Link-2
 								</Typography>
 							</Link>
 							<Link href={ROUTES.HOMEPAGE}>
-								<Typography color={"custom.textWhite"}>
+								<Typography color='custom.textWhite'>
 									Link-3
 								</Typography>
 							</Link>
@@ -128,3 +128,7 @@ const Navbar: React.FC<TNavbarProps> = (props) => {
 	);
 };
 export default Navbar;
+
+Navbar.defaultProps = {
+	window: undefined,
+};

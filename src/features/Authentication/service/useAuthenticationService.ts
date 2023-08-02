@@ -79,7 +79,7 @@ export const useAuthenticationService = () => {
 		> = useMutation(
 			async (payload: TRegisterPayload) => postRegisterFetcher(payload),
 			{
-				onSuccess: (response) => {
+				onSuccess: () => {
 					snackbarService.showSuccess({
 						message: "Create account successfully.",
 					});

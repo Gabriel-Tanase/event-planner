@@ -17,19 +17,21 @@ const Login = nextConnect({
 	},
 });
 
+// eslint-disable-next-line consistent-return
 Login.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	const { email, password } = req.body;
 
 	const user = await prisma.user.findUnique({
 		where: {
-			email: email,
+			email,
 		},
 	});
 
 	if (!isEmpty(user)) {
+		// eslint-disable-next-line consistent-return
 		compare(password, user.password, async (err, result) => {
 			if (!err && result) {
-				const claims = { id: user.id, email: email };
+				const claims = { id: user.id, email };
 				const JWT = sign(claims, process.env.JWT_KEY as string, {
 					expiresIn: 172800000,
 				});

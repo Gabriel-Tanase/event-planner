@@ -58,21 +58,21 @@ const DrawerMobile: FC<TDrawerMobile> = ({ window, isOpen, toggleDrawer }) => {
 						<List onClick={toggleDrawer}>
 							<ListItem>
 								<Link href={ROUTES.HOMEPAGE}>
-									<Typography color={"custom.text"}>
+									<Typography color='custom.text'>
 										Link-1
 									</Typography>
 								</Link>
 							</ListItem>
 							<ListItem>
 								<Link href={ROUTES.HOMEPAGE}>
-									<Typography color={"custom.text"}>
+									<Typography color='custom.text'>
 										Link-2
 									</Typography>
 								</Link>
 							</ListItem>
 							<ListItem>
 								<Link href={ROUTES.HOMEPAGE}>
-									<Typography color={"custom.text"}>
+									<Typography color='custom.text'>
 										Link-3
 									</Typography>
 								</Link>

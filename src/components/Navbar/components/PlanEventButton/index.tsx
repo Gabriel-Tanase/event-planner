@@ -30,7 +30,7 @@ const PlanEventButton = () => {
 				},
 			}}
 		>
-			<Typography color={"custom.textWhite"}>
+			<Typography color='custom.textWhite'>
 				{t("BUTTONS.START_PLANNING")}
 			</Typography>
 		</Button>
