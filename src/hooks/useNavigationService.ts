@@ -29,13 +29,13 @@ const useNavigationService = () => {
 	};
 
 	const navigateToLogin = () => {
-		router.push({ pathname: ROUTES.LOGIN, query }, undefined, {
+		router.push({ pathname: ROUTES.HOMEPAGE, query }, undefined, {
 			locale,
 		});
 	};
 
 	const navigateToRegister = () => {
-		router.push({ pathname: ROUTES.REGISTER, query }, undefined, {
+		router.push({ pathname: ROUTES.HOMEPAGE, query }, undefined, {
 			locale,
 		});
 	};
