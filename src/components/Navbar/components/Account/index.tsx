@@ -37,7 +37,7 @@ const Account: React.FC<TAccountProps> = ({ toggleDrawer }) => {
 	const { t } = useTranslation("locale");
 
 	const currentUser = selectCurrentUser();
-	console.log(currentUser);
+
 	const { useLogout, isUserAuthenticated } = useAuthenticationService();
 
 	const onLogoutSuccess = () => {

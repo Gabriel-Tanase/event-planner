@@ -1,7 +1,8 @@
 export const API_PATHS = {
-  CURRENT_USER: "user",
+	USER: "user",
 };
 
 export const QUERY_KEYS = {
-  CURRENT_USER: "currentUser",
+	CURRENT_USER: "currentUser",
+	USER: "user-",
 };

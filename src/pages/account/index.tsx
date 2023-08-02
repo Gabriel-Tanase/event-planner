@@ -6,7 +6,7 @@ import ProtectedRoute from "@/wrappers/ProtectedRoute/intex";
 import { selectCurrentUser } from "@/features/UserProfile/service/useUserService";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-const Account = () => {
+const Account: React.FC = () => {
 	const currentUser = selectCurrentUser();
 
 	return (

@@ -24,7 +24,6 @@ const LanguageMenu = () => {
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.nativeEvent.target);
-    console.log(event);
   };
 
   const handleClose = () => {

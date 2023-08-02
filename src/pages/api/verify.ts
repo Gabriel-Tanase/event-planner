@@ -20,7 +20,6 @@ Verify.get(async (req: NextApiRequest, res: NextApiResponse) => {
 		process.env.JWT_KEY as string,
 		async (err: any, decoded: any) => {
 			if (!err && decoded) {
-				console.log(decoded);
 				return res.status(200).json({
 					isUserAuthenticated: true,
 				});

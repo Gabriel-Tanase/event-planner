@@ -16,7 +16,7 @@ import PlanEventButton from "./components/PlanEventButton";
 import { noop } from "lodash";
 
 type TNavbarProps = {
-	window: any;
+	window?: any;
 };
 
 export const navbarHeight = 64;
