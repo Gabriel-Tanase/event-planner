@@ -3,7 +3,10 @@
 		"DARK_MODE_ON": "Întuneric",
 		"DARK_MODE_OFF": "Lumină",
 		"ROMANIAN": "Română",
-		"ENGLISH": "Engleză"
+		"ENGLISH": "Engleză",
+		"NEXT": "Înainte",
+		"BACK": "Înapoi",
+		"FINISH": "Finalizare"
 	},
 	"FORM": {
 		"FIRST_NAME": "Prenume",

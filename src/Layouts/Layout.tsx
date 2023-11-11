@@ -18,7 +18,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => (
 		}}
 	>
 		<Navbar />
-		<Container sx={{ py: "30px" }} maxWidth='lg'>
+		<Container maxWidth='lg' sx={{ p: 0 }}>
 			{children}
 		</Container>
 		<Footer />

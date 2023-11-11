@@ -3,7 +3,10 @@
 		"DARK_MODE_ON": "Dark",
 		"DARK_MODE_OFF": "Light",
 		"ROMANIAN": "Romanian",
-		"ENGLISH": "English"
+		"ENGLISH": "English",
+		"NEXT": "Next",
+		"BACK": "Back",
+		"FINISH": "Finish"
 	},
 	"FORM": {
 		"FIRST_NAME": "First name",

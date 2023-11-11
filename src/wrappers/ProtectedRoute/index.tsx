@@ -10,7 +10,7 @@ const ProtectedRoute: React.FC<{ children: ReactElement }> = ({ children }) => {
 		if (!isUserAuthenticated) {
 			navigateToHomepage();
 		}
-	}, []);
+	}, [isUserAuthenticated]);
 
 	if (!isUserAuthenticated) {
 		return (

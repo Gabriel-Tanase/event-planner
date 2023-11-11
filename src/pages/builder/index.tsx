@@ -1,14 +1,6 @@
-import Layout from "@/Layouts/Layout";
-import ProtectedRoute from "@/wrappers/ProtectedRoute/intex";
-import { Box } from "@mui/material";
 import React from "react";
+import { Builder as BuilderFeature } from "@/features/Builder";
 
-const Builder = () => (
-	<ProtectedRoute>
-		<Layout>
-			<Box>Builder page</Box>
-		</Layout>
-	</ProtectedRoute>
-);
+const Builder: React.FC = () => <BuilderFeature />;
 
 export default Builder;
