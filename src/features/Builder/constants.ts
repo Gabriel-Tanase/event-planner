@@ -1,12 +1,14 @@
 import { StepType } from "@/components/Stepper/types";
 import { StepPlaceholder } from "./components/StepPlaceholder/StepPlaceholder";
 import { createContext } from "react";
+import { BuilderStateType } from "./types";
+import { ModelsSelectionStep } from "./components/ModelsSelectionStep/ModelsSelectionStep";
 
 export const STEPS: Array<StepType> = [
 	{
 		order: 0,
 		label: "Placeholder (0)",
-		component: StepPlaceholder,
+		component: ModelsSelectionStep,
 	},
 	{
 		order: 1,
@@ -20,9 +22,14 @@ export const STEPS: Array<StepType> = [
 	},
 ];
 
-export const defaultBuilderContext = {
-	model: "",
-	props: [],
+export const initialBuilderState: BuilderStateType = {
+	modelId: null,
+	props: null,
 };
 
-export const BuilderContext = createContext(defaultBuilderContext);
+export const BuilderContext = createContext(initialBuilderState);
+
+export const BUILDER_CONTEXT_ACTIONS = {
+	ADD_MODEL_ID: "ADD_MODEL_ID",
+	ADD_PROPS: "ADD_PROPS",
+};

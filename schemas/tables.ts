@@ -10,6 +10,16 @@
 						
 					},
 				}
+			,
+				invitationModel: {
+					columns: ['id','name','eventType','componentName','isPremium','deleted','created_at'],
+					relation: {
+						
+					},
+					ref: {
+						
+					},
+				}
 			
 		}	
 	

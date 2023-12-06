@@ -1,11 +1,5 @@
 // import { TRequestError } from "@/shared/types/error/api";
-// import {
-// 	useMutation,
-// 	UseMutationResult,
-// 	useQuery,
-// 	useQueryClient,
-// 	UseQueryResult,
-// } from "react-query";
+import { useQuery } from "react-query";
 // import {
 // 	getLogoutFetcher,
 // } from "./fetcher";
@@ -15,6 +9,8 @@
 // import { ROUTES } from "@/shared/constants/routes";
 // import { QUERY_KEYS } from "@/features/UserProfile/service/constants";
 // import { QUERY_KEYS as AUTH_QUERY_KEYS } from "@/features/Authentication/service/constants";
+
+import { getInvitationModels } from "./fetcher";
 
 // export const useAuthenticationService = () => {
 
@@ -46,41 +42,12 @@
 // 		return mutation;
 // 	};
 
-// 	const useLogout = (
-// 		proceedWithLogout: boolean,
-// 		onLogoutSuccess: () => void
-// 	): TLogoutResponse => {
-// 		const queryClient = useQueryClient();
-
-// 		const { isLoading }: UseQueryResult<null, TRequestError> = useQuery(
-// 			["logout"],
-// 			getLogoutFetcher,
-// 			{
-// 				enabled: proceedWithLogout,
-// 				onSuccess: () => {
-// 					snackbarService.showSuccess({
-// 						message: "Logout successfully.",
-// 					});
-
-// 					queryClient.setQueryData(
-// 						QUERY_KEYS.CURRENT_USER,
-// 						undefined
-// 					);
-
-// 					queryClient.setQueryData(
-// 						AUTH_QUERY_KEYS.VERIFY_USER_LOGGED_IN,
-// 						undefined
-// 					);
-
-// 					onLogoutSuccess();
-// 				},
-// 			}
-// 		);
-
-// 		return {
-// 			isLogoutLoading: isLoading,
-// 		};
-// 	};
+export const useGetInvitationModels = (): any => {
+	const { data } = useQuery(["INVITATION_MODELS"], getInvitationModels);
+	return {
+		data,
+	};
+};
 
 // 	return {
 // 		useLoginMutation,

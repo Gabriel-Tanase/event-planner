@@ -92,6 +92,17 @@ model User {
   created_at DateTime @default(now())
 }
 
+model InvitationModel {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String  
+  eventType      String  
+  componentName      String  
+  isPremium  Boolean? @default(false)
+  deleted    Boolean? @default(false)
+  created_at DateTime @default(now())
+}
+
+
 // verifyToken String
 // accountStatus String?  @default("PENDING")
 // profile       Profile?

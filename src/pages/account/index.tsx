@@ -2,7 +2,7 @@ import Layout from "@/Layouts/Layout";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { isEmpty } from "lodash";
-import ProtectedRoute from "@/wrappers/ProtectedRoute/intex";
+import ProtectedRoute from "@/wrappers/ProtectedRoute";
 import { selectCurrentUser } from "@/features/UserProfile/service/useUserService";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
